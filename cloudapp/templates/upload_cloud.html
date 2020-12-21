@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block contents %}
+{% load static %}
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>클라우드 페이지</title>
+		<script type="text/javascript" src="{% static '/js/chart.js' %}"></script>
+		<script type="text/javascript" src="{% static '/js/chart_prediction.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'css/loading.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/modal.css' %}"/>
+        <script>
+            let temp = `{% csrf_token %}`;
+        </script>
+        <script type="text/javascript" src="{% static '/js/j_upload_cloud.js' %}"></script>
+    </head>
+    <style>
+
+    </style>
+    
+    <body>
+        <br><br><br>
+        <div class='container'>
+        <h4>Predict Files</h4><hr>
+            <label>file upload</label>
+			<form action="{% url 'dataTransmit' %}" enctype="multipart/form-data" method="post">
+				{% csrf_token %}
+				<input type="file" name="input_file" class="pull-left" id="file">
+				<input type="button" value="예측" class="btn btn-primary pull-right" id="prediction">
+			</form>
+            <div class="card-body">
+                <div id="chart_wrapper">
+                </div>
+				<br>
+				<div id="predicted_display_area">
+				</div>
+            </div>
+        </div>
+        <br>
+        <div class='container'>
+            <h4>Upload Files</h4><hr>
+            <div class="container-fluid">
+                <form action="" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="">Subject</label>
+                        <input type="text" name="subject" class="form-control" placeholder="파일 이름">
+                   
+
+                    
+                        <label>File</label>
+                        <input type=file required name="file"class="form-control-file" >
+                    
+
+                   
+                        <label>File Type</label>
+                        <select name="filetype" class="form-control" required>
+                         <option vlaue="exel">Exel</option>
+                         <option value="txt">Text</option> 
+                         <option value="csv">CSV</option>  
+                        </select>
+                   
+
+                   
+                        <label >Description</label>
+                        <input type="text" name="description" class="form-control" placeholder="파일 설명">
+                   
+                   
+                        <br>
+                        <input type="submit" name="submit" class="btn btn-primary" type="submit" value="파일 업로드하기">
+                    </div>
+                    <hr>
+                </form>
+
+            </div>
+            
+            
+
+ 
+        </div>
+
+       <br><br>
+        <div class="container"><h3>My Cloud</h3><hr></div>
+        <div style="background-color: white; width:1200px;" class="container-fluid">
+            
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">date</th>
+                        <th scope="col">subject</th>
+                        <th scope="col">filetype</th>
+                        <th scope="col">description</th>
+                        <th scope="col">download</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+            {% for item in cloud  %}
+             <tr>
+                 <td>{{item.uploadingdate}}</td>
+                 <td>{{item.subject}}</td>
+                 <td>{{item.filetype}}</td>
+                 <td>{{item.description}}</td>
+                 <td><a href="{{ item.file.url }}" download>{{item.file}}</a></td>
+                 <td><a href="{% url 'delete' item.idx  %}"><button class="btn btn-outline-primary" onclick="return confirm('정말 삭제하시겠습니까?')" alt="삭제">삭제하기</button></a></td>
+             </tr>
+                </tbody>  
+            {% endfor %}
+            
+        </div>
+
+        
+<!-- <div id="wrap">
+  <a href="javascript:openModal('modal1');" class="button modal-open">모달열기1</a>
+  <a href="javascript:openModal('modal2');" class="button modal-open">모달열기2</a>
+</div> -->
+
+        <div id="modal"></div>
+        <div class="modal-con modal1">
+            <a href="javascript:;" class="close">X</a>
+            <p class="title"><b>잘못된 형식의 파일입니다!!</b></p>
+            <div id="error_contents" class="con">
+                
+            </div>
+        </div>
+
+    </body>
+
+
+{% endblock %}

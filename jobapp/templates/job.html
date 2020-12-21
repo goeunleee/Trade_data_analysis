@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contents %}
+
+  <!-- Page Content -->
+<div class="container">
+
+    <div class="row" style="text-align: center; margin-top:60px; padding-left: 20%;"> 
+      
+      <!-- Blog Entries Column -->
+      
+        <div class="col-md-8">
+            <div align="center">
+            <h1 class="my-4">직업 공고
+                <small>-모집중인 공고-</small>
+            </h1>
+          </div>
+          {% if user.is_authenticated %}
+            <a href = "{% url 'write' %}" class="button" style="background-color: lightblue; font-size: 12px; padding: 5px 5px; border-radius: 5px;">공고 작성</a>
+        <!-- Blog Post -->
+          {% endif %}
+            <div class="card mb-4">
+            
+            <div class="card-body" >
+                    {% for item in job %}
+                        <br>
+                        <div style="border:2px solid; border-radius: 20px 20px 20px 20px; padding: 10px; background-color: #9ddff5;">
+                        <p class="card-title" style="font-size: 25px;">{{ item.title }}</p>
+                        <p class="card-text">{{item.summary}}
+                            <a href="{% url  'detail' item.page_number %}" class="btn btn-primary">...더보기 &rarr;</a>
+                        </p>
+                        
+                        <div class="card-footer text-muted" align="right">
+                            {{item.author}} {{item.pub_date}}<br>
+                        </div>
+                        </div>
+                        <br>
+                    {% endfor %}
+            </div>
+            </div>
+            <!-- Pagination -->
+            <div align="center">
+                <ul class="pagination justify-content-center mb-4">
+                    {% if job.has_previous %}
+                    
+                    <a class="page-link" href="?page={{job.previous_page_number}}"  style="font-size: 20px;">&larr; 이전으로</a>
+                
+                    {% endif %}
+                    {% if job.has_next %}
+                    
+                    <span class="button" style="background-color: lightblue; font-size: 12px; padding: 5px 5px; border-radius: 5px;">{{job.number}}</span>
+                        <a class="page-link" href="?page={{job.next_page_number}}"  style="font-size: 20px;">다음으로 &rarr;</a>
+                    {% endif %}
+                </ul>
+            </div>
+          
+        </div>
+      
+
+      <!-- Sidebar Widgets Column -->
+      <br>
+      
+    
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</div>
+{% endblock %}

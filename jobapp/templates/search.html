@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if not jobs %}
+
+        <h1 style="margin-top:80px;">검색 결과가 없습니다</h1>
+
+    {% else %}
+        {% for job in jobs %}
+            <div style="margin-top:80px;" class="container"> 
+                <div class="card">
+                    <div class="card-body">
+                        <h1>{{ job.title }}</h1>
+                        <p>{{ job.pub_date | date:"Y-m-d" }}</p>
+                        <p>{{ job.summary }}<a href="{% url 'detail' job.id %}"> ...자세히 보기</a></p> 
+                    </div>
+                </div>
+            </div>
+        <br>
+        {% endfor %}
+        
+    {% endif %}
+
+{% endblock %}

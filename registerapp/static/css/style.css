@@ -1,0 +1,120 @@
+body{
+    width:100%;
+    height:100%;
+    margin-top : 90px;
+  }
+  a{text-decoration: none;}
+  .clearfix{content:'';display:block; clear:both;}
+  
+  select{
+   font-size : 15px;
+  }
+  .news {
+    float:left;
+    margin-left:1%;
+    width:32%;
+    height:90%;
+  }
+  .chart1{
+    margin-left:3%;
+    float:left;
+    width:45%;
+    height:60%;
+  }
+  .chart2{
+    margin-left:3%;
+    float:right;
+    width:45%;
+    height:60%;
+  }
+  .row{
+  margin-bottom:2%;
+  }
+ .chart-bar{
+   width:100%;
+   height:90%;
+ }
+ .card-body{
+   height:60%;
+ }
+ canvas{
+   width:90%;
+   height:90%;
+ }
+ tr{
+   font-size:12px;
+ }
+button{
+  height:10%;
+  font-size:20px;
+  border:white;
+  background-color:white;
+  color:#368af8;
+  margin-right:5%;
+}
+h3{
+  font-weight: bold;
+}
+
+/* chart1 */
+.chart1_bt, .chart1_bt2{
+  width: 70px;
+  height: 27px;
+  font-size: small;
+  font-weight: bold;
+  border: 1px solid gray;
+  background-color: rgba(0, 0, 0, 0);
+  color: gray;
+  padding: 5px;
+  border-radius: 5px;
+  margin:0px;
+}
+.chart1_bt:hover, .chart1_bt2:hover{
+  color: white;
+  background-color: gray;
+}
+.chart1_bt_selected{
+  width: 70px;
+  height: 27px;
+  font-size: small;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  margin:0px;
+  color: white;
+  background-color: gray;
+  border: 1px solid gray;
+}
+
+/* chart2, 3 */
+.chart2_bt, .chart3_bt{
+  width: 50px;
+  height: 30px;
+  font-size: small;
+  font-weight: bold;
+  border: 1px solid gray;
+  background-color: rgba(0, 0, 0, 0);
+  color: gray;
+  padding: 5px;
+  border-radius: 5px;
+  margin:0px;
+}
+.chart2_bt:hover, .chart3_bt:hover{
+  color: white;
+  background-color: gray;
+}
+.chart2_bt_selected, .chart3_bt_selected{
+  width: 50px;
+  height: 30px;
+  font-size: small;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  margin:0px;
+  color: white;
+  background-color: gray;
+  border: 1px solid gray;
+}
+.top-menu{
+  margin-top:2%
+}

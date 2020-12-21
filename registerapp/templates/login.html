@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block contents %}
+{% load static %}
+
+<link href = "{% static 'css/reg_form.css' %}" rel="stylesheet" type="text/css">
+
+{% if user.is_authenticated %}
+<script type="text/javascript">
+    alert('잘못된 접근입니다. \n새로 로그인하기 위해서는 로그아웃이 필요합니다.')
+    window.location.href = '/';
+  </script>
+{% else %}
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        
+        <br>
+        <div id='title'>
+            <h2 style="font-size:xx-large;">Login</h2><br><br>
+        </div>
+      
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="email" id="login" class="fadeIn second" name="username" placeholder="email">
+            <input type="password" id="login" class="fadeIn third" name="password" placeholder="password">
+            <input type="submit" class="fadeIn fourth" value="Login">
+        </form>
+     
+        <div id="formFooter">
+            <a class="underlineHover" href="{% url 'agreement' %}"><b>JOIN?</b></a>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}

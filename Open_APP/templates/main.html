@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block contents %}
+{% load static %}
+<style>
+  .table-bordered,
+  .table-striped,
+  .table-hover {
+    width: 50%px;
+  }
+
+  .table-bordered th,
+  .table-striped th,
+  .table-hover th {
+    width: 170px;
+    text-align: center;
+  }
+</style>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<script>
+  var data1_import = {{ dataset1_import| safe }}
+  var data1_export = {{ dataset1_export| safe }}
+  var data1_tradebalance = {{ dataset1_tradebalance| safe }}
+  var data2 = {{ dataset2| safe }}
+  var data3_usa = {{ dataset3_usa| safe }}
+  var data3_china = {{ dataset3_china| safe }}
+  var data3_japan = {{ dataset3_japan| safe }}
+  var data3_eu = {{ dataset3_eu| safe }}
+  var data4 = {{ dataset4| safe }}
+  var chart1_val = '수출금액';
+  var chart1_year_value = 2017;
+  var chart2_year_value = 2015;
+  var chart3_country_value = '미국';
+</script>
+
+<div>
+  <div id="content">
+    <div class="container-fluid">
+      <div align="center" class="top-menu">
+        <a href="{% url 'main' %}">
+          <button type="button" onClick="location.href=main"><strong>수출입 동향 차트</strong></button></a>
+        <a href="{% url 'main1' %}">
+          <button type="button" onClick="location.href=main1"><strong>수출입 뉴스</strong></button></a>
+      </div><br><br>
+
+      <!-- chart1=> -->   
+      <div class="row" style="margin: 20px; width: 80%;">
+        <!-- <div class="chart1"> -->
+          <h3><품목별 수출입 실적>&nbsp;</h3><br>
+          <div class="card shadow">
+            <div class="card-header py-3">
+              <button class='chart1_bt, chart1_bt_selected' id='chart1_2017' onclick="chart1_bt_clicked(2017, 'chart1_2017')">2017</button>
+              <button class='chart1_bt' id='chart1_2018' onclick="chart1_bt_clicked(2018, 'chart1_2018')">2018</button>
+              <button class='chart1_bt' id='chart1_2019' onclick="chart1_bt_clicked(2019, 'chart1_2019')">2019</button> <br><br>
+
+              <button class='chart1_bt2, chart1_bt_selected' id='chart1_export' onclick="chart1_bt2_clicked('수출금액', 'chart1_export')">수출금액</button>
+              <button class='chart1_bt2' id='chart1_import' onclick="chart1_bt2_clicked('수입금액', 'chart1_import')">수입금액</button>
+              <button class='chart1_bt2' id='chart1_trade_balance' onclick="chart1_bt2_clicked('무역수지', 'chart1_trade_balance')">무역수지</button>
+              <h6 class="m-0 font-weight-bold text-primary">금액 기준 (단위: 천 불(USD 1,000))</h6>
+            </div>
+            <div class="card-body">
+              <div class="chart-bar" id="chart1_chartContainer">
+                <canvas id="chart1"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+
+      <!-- chart2=> -->
+      <div class="row">
+        <div class="chart1">
+          <h3>
+            <한국의 주요 수출국>&nbsp;
+          </h3><br>
+          <div class="card shadow">
+            <div class="card-header py-3">
+              <button class='chart2_bt, chart2_bt_selected' id='chart2_2015'
+                onclick="chart2_bt_clicked(2015, 'chart2_2015')">2015</button>
+              <button class='chart2_bt' id='chart2_2016' onclick="chart2_bt_clicked(2016, 'chart2_2016')">2016</button>
+              <button class='chart2_bt' id='chart2_2017' onclick="chart2_bt_clicked(2017, 'chart2_2017')">2017</button>
+              <button class='chart2_bt' id='chart2_2018' onclick="chart2_bt_clicked(2018, 'chart2_2018')">2018</button>
+              <button class='chart2_bt' id='chart2_2019' onclick="chart2_bt_clicked(2019, 'chart2_2019')">2019</button>
+              <h6 class="m-0 font-weight-bold text-primary">수출금액 기준 (단위: 천 불(USD 1,000))</h6>
+            </div><br>
+            <div class="card-body">
+              <div class="chart-bar" id="chart2_chartContainer">
+                <canvas id="chart2"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- chart3=> -->
+        <div class="chart2">
+          <h3>
+            <주요 국가별 한국의 비중>&nbsp;
+          </h3><br>
+          <div class="card shadow">
+            <div class="card-header py-3">
+              <button class='chart3_bt, chart3_bt_selected' id='chart3_usa'
+                onclick="chart3_bt_clicked('미국', 'chart3_usa')">미국</button>
+              <button class='chart3_bt' id='chart3_china' onclick="chart3_bt_clicked('중국', 'chart3_china')">중국</button>
+              <button class='chart3_bt' id='chart3_japan' onclick="chart3_bt_clicked('일본', 'chart3_japan')">일본</button>
+              <button class='chart3_bt' id='chart3_eu' onclick="chart3_bt_clicked('EU', 'chart3_eu')">EU</button>
+              <h6 class="m-0 font-weight-bold text-primary" id="chart3_Text">금액 단위: 백만불</h6>
+            </div>
+            <div class="card-body">
+              <div class="chart-bar" id="chart3_chartContainer">
+                <canvas id="chart3"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  
+      <h3>
+        <성질별 국가별 수출입 통계>&nbsp;
+      </h3><br>
+
+      <!--select box-->
+      <form method="POST">
+        {% csrf_token %}
+        <select name="year">
+          {% for i in year %}
+          <option value='{{i}}'>{{i}}</option>
+          {% endfor%}
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm">선택</button>
+      </form>
+      <div class="container-fluid" style=" float: left; width:50%">
+        <h4 style="text-align: center;">수입 통계</h4>
+        {{ dataset41|safe }}
+        <br><br>
+      </div>
+
+      <div class="container-fluid" style=" float: right; width:50%">
+        <h4 style="text-align: center;">수출 통계</h4>
+        {{ dataset42|safe }}
+        <br><br>
+      </div>
+
+
+
+      <script type="text/javascript" src="../static/js/main_chart.js"></script>
+
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2020</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    {% endblock contents %}

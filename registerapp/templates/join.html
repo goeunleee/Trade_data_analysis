@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block contents %}
+{% load static %}
+
+<link href = "{% static 'css/reg_form.css' %}" rel="stylesheet" type="text/css">
+
+{% if user.is_authenticated %}
+<script type="text/javascript">
+    alert('잘못된 접근입니다. \n회원가입을 위해서는 로그아웃이 필요합니다.')
+    window.location.href = '/';
+  </script>
+{% else %}
+
+<div style="margin-top: 40px;" class="wrapper fadeInDown">
+    <div id="formContent">
+     
+        <br>
+        <div id='title'>
+            <h2 style="font-size:xx-large;">Join</h2><br><br>
+        </div>
+       
+        <form method="POST" name="joinForm" action="{% url 'join' %}">
+            {% csrf_token %}
+            <input required type="email" id="username" class="fadeIn second" name="username" placeholder="E-mail">
+            <input required type="password" id="password" class="fadeIn third" name="password" placeholder="비밀번호(8자 이상)" minlength="8">
+            <input required type="password" id="password" class="fadeIn third" name="password_check" placeholder="비밀번호 확인" minlength="8">
+            <input required type="text" id="com_name" class="fadeIn second" name="com_name" placeholder="기업명">
+            <input required type="text" id="com_major" class="fadeIn second" name="com_major" placeholder="주력산업">
+            <input type="submit" class="fadeIn fourth" value="Join">
+        </form>
+        
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

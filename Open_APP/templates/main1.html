@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contents %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<div>
+    <div id="content">
+      <div class="container-fluid">
+        <div align="center" class="top-menu">
+          <a href="{% url 'main' %}">
+          <button type="button" onClick="location.href=main"><strong>수출입 동향 차트</strong></button></a>
+          <a href="{% url 'main1' %}">
+          <button type="button" onClick="location.href=main1"><strong>수출입 뉴스</strong></button></a>
+        </div><br><br><br>
+        <div class="row">
+          <div class="news">
+          {% csrf_token %}
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h3>뉴스피드 - 경제 * 무역</h3><br><br>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>제목</th>
+                        <th>링크</th>
+                      </tr>
+                    </thead>
+                    {%for i in newslist %}
+                    <tbody>
+                      <tr>
+                        <td>{{i.title}}</td>
+                        <td> <a href="{{i.hyperlink}}" target="_blank" style="color: black;"><b>링크</b></a></td>
+                      </tr>
+                    </tbody>
+                    {%endfor %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="news">
+          {% csrf_token %}
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h3>뉴스피드 - 통상 * 규제</h3><br><br>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>제목</th>
+                        <th>링크</th>
+                      </tr>
+                    </thead>
+                    {%for i in newslist1 %}
+                    <tbody>
+                      <tr>
+                        <td>{{i.title}}</td>
+                        <td> <a href="{{i.hyperlink}}" target="_blank" style="color: black;"><b>링크</b></a></td>
+                      </tr>
+                    </tbody>
+                    {%endfor %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="news">
+          {% csrf_token %}
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h3>뉴스피드 - 투자 * 진출</h3><br><br>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>제목</th>
+                        <th>링크</th>
+                      </tr>
+                    </thead>
+                    {%for i in newslist2 %}
+                    <tbody>
+                      <tr>
+                        <td>{{i.title}}</td>
+                        <td> <a href="{{i.hyperlink}}" target="_blank" style="color: black;"><b>링크</b></a></td>
+                      </tr>
+                    </tbody>
+                    {%endfor %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2020</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+{% endblock contents %}
